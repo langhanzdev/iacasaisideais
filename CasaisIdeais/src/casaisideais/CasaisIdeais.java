@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -16,8 +17,9 @@ import java.util.ArrayList;
  */
 public class CasaisIdeais { 
     
-    private ArrayList<Homem> listaHomens = new ArrayList<>();
-    private ArrayList<Mulher> listaMulheres = new ArrayList<>();
+    private ArrayList<Elemento> listaElementos = new ArrayList<>();
+    private int n = 20;
+    
 
     /**
      * @param args the command line arguments
@@ -25,10 +27,94 @@ public class CasaisIdeais {
     public static void main(String[] args) {
         CasaisIdeais c = new CasaisIdeais();
         c.leArquivo();
+        c.geraParedes();
+        c.desenhaAmbiente();
     }
     
+    public void desenhaAmbiente(){
+        Elemento e;
+        for(int y=0;y<this.n;y++){
+            for(int x=0;x<this.n;x++){
+                e = temElemento(x,y);
+                if(e != null){
+                    if(e.isHomem()){
+                        System.out.print("[H"+e.getId()+"]");
+                    }else
+                        if(e.isMulher()){
+                            System.out.print("[M"+e.getId()+"]");
+                        }else
+                            if(e.isParede()){
+                                System.out.print("[##]");
+                            }else
+                                if(e.isCartorio()){
+                                    System.out.println("[C"+e.getId()+"]");
+                                }
+                }else
+                System.out.print("[  ]");
+            }
+            System.out.println();
+        }
+        
+    }
+    
+    public Elemento temElemento(int x, int y){
+        Elemento aux;
+        for(int i=0;i<listaElementos.size();i++){
+            aux  = listaElementos.get(i);
+            if(aux.getX() == x && aux.getY() == y){
+                return aux;
+            }
+        }
+        return null;
+    }
+    
+    public void geraParedes(){
+        
+        int tamanhoParede;
+        int quantidadeParede = (int) this.n/5;
+        ArrayList<Integer> sementesX = new ArrayList<>();
+        int sementex = 0;
+        int sementey;
+        boolean perto;
+        int particao =  this.n/(quantidadeParede+1);
+        Random ran = new Random();
+        
+        for(int a=0;a<quantidadeParede;a++){
+            
+            do{
+                perto = true;
+                tamanhoParede = (this.n/2)+1;
+                sementex = (int) (sementex+(particao)-ran.nextInt(2));//(int) (Math.random()*this.n);
+                sementey = (int) (Math.random()*((this.n/2)-1));
+                if(sementey < 2) sementey += 2;
+                if(sementey+tamanhoParede >= this.n) sementey -= 2;
+                
+                for(Integer p:sementesX){
+                    if((p-sementex < particao && p-sementex > particao-(2*particao)) ){ //|| p < 3 || this.n-p > 3
+                        perto = false;
+                        break;
+                        
+                    }
+                }
+                
+                
+            }while(/*((sementex+tamanhoParede) > this.n) || */!perto);
+            sementesX.add(sementex);
+            for(int i=0;i<tamanhoParede;i++){
+                listaElementos.add(new Elemento(false, false, true, false, i, 0, 0, 0, sementex, sementey));
+                sementey++;
+            }
+        }
+        
+        
+    }
+    
+    
+    
+    
     public void leArquivo() {
-        System.out.printf("\nConteúdo do arquivo texto:\n");
+        ///System.out.printf("\nConteúdo do arquivo texto:\n");
+        
         try {
             FileReader arq = new FileReader("entrada.txt");
             BufferedReader lerArq = new BufferedReader(arq);
@@ -45,7 +131,7 @@ public class CasaisIdeais {
                 
                 p++;
             }
-            System.out.println(sQtdCasais+"\n");
+            //System.out.println(sQtdCasais+"\n");
             int qtdCasais = Integer.parseInt(sQtdCasais);
             p++;
             while(p < linha.length()){
@@ -98,7 +184,7 @@ public class CasaisIdeais {
                 p++;aux="0";
                 
                 
-                listaHomens.add(new Homem(id, pr, seg, ter));
+                listaElementos.add(new Elemento(true, false, false, false, id, pr, seg, ter,(int) (Math.random()*this.n),(int) (Math.random()*this.n)));
 
                 
                 linha = lerArq.readLine(); 
@@ -141,7 +227,7 @@ public class CasaisIdeais {
                 p++;aux="0";
                 
                 
-                listaMulheres.add(new Mulher(id, pr, seg, ter));
+                listaElementos.add(new Elemento(false, true, false,false, id, pr, seg, ter,(int) (Math.random()*this.n),(int) (Math.random()*this.n)));
 
                 
                 linha = lerArq.readLine(); 
@@ -154,8 +240,8 @@ public class CasaisIdeais {
 //                linha = lerArq.readLine(); // lê da segunda até a última linha
 //            }
             
-            System.out.println(listaHomens.toString());
-            System.out.println(listaMulheres.toString());
+//            System.out.println(listaElementos.toString());
+            
 
             arq.close();
         } catch (IOException e) {
