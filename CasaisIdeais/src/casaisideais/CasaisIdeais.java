@@ -224,8 +224,10 @@ public class CasaisIdeais {
     }
     
     public int somaDirecao(int d){
-        if(d == 3) return 0;
-        else return d+1;
+        Random ran = new Random();
+        return ran.nextInt(4);
+//        if(d == 3) return 0;
+//        else return d+1;
     }
     
     
