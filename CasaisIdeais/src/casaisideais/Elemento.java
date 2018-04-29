@@ -5,6 +5,8 @@
  */
 package casaisideais;
 
+import java.util.Random;
+
 /**
  *
  * @author langhanz
@@ -23,8 +25,11 @@ public class Elemento {
     
     private int x;
     private int y;
+    
+    private int direcao;
 
     public Elemento(boolean isHomem, boolean isMulher, boolean isParede, boolean isCartorio, int id, int preferencia1, int preferencia2, int preferencia3) {
+        Random ran = new Random();
         this.isHomem = isHomem;
         this.isMulher = isMulher;
         this.isParede = isParede;
@@ -33,9 +38,11 @@ public class Elemento {
         this.preferencia1 = preferencia1;
         this.preferencia2 = preferencia2;
         this.preferencia3 = preferencia3;
+        this.direcao = ran.nextInt(4);
     }
 
     public Elemento(boolean isHomem, boolean isMulher, boolean isParede, boolean isCartorio, int id, int preferencia1, int preferencia2, int preferencia3, int x, int y) {
+        Random ran = new Random();
         this.isHomem = isHomem;
         this.isMulher = isMulher;
         this.isParede = isParede;
@@ -46,9 +53,16 @@ public class Elemento {
         this.preferencia3 = preferencia3;
         this.x = x;
         this.y = y;
+        this.direcao = ran.nextInt(4);
     }
-    
-    
+
+    public int getDirecao() {
+        return direcao;
+    }
+
+    public void setDirecao(int direcao) {
+        this.direcao = direcao;
+    }
 
     public int getX() {
         return x;
