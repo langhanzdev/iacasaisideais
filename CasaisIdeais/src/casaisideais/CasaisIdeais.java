@@ -18,11 +18,12 @@ import java.util.Random;
 public class CasaisIdeais { 
     
     private ArrayList<Elemento> listaElementos = new ArrayList<>();
-    private final int n = 20;
+    private final int n = 10;
     private int qtdHomens;
     private int qtdMulheres;
     private int qtdCartorios;
     private int qtdParedes;
+    int[][] matriz = new int[this.n][this.n];
     
 
     /**
@@ -34,11 +35,21 @@ public class CasaisIdeais {
         
         c.leArquivo();
         c.geraCartorios();
-        
-        for(int i=0;i<15;i++){
+        c.desenhaMatriz();
+//        for(int i=0;i<15;i++){
             c.desenhaAmbiente();
             c.andaAgente();
             Thread.sleep(500);
+//        }
+        
+    }
+    
+    public void desenhaMatriz(){
+        for(int i=0;i<this.n;i++){
+            for(int z=0;z<this.n;z++){
+                System.out.print("["+matriz[z][i]+"]");
+            }
+            System.out.println();
         }
     }
     
@@ -139,6 +150,7 @@ public class CasaisIdeais {
             sementesX.add(sementex);
             for(int i=0;i<tamanhoParede;i++){
                 listaElementos.add(new Elemento(false, false, true, false, idParede, 0, 0, 0, sementex, sementey));
+                matriz[sementex][sementey] = listaElementos.size()-1;
                 sementey++;
             }
             idParede++;
@@ -179,6 +191,7 @@ public class CasaisIdeais {
         
         for(int a=0;a<lstAux.size();a++){
             this.listaElementos.add(lstAux.get(a));
+            matriz[lstAux.get(a).getX()][lstAux.get(a).getY()] = listaElementos.size()-1;
         }
     }
     
@@ -228,6 +241,18 @@ public class CasaisIdeais {
         return ran.nextInt(4);
 //        if(d == 3) return 0;
 //        else return d+1;
+    }
+    
+    
+    public void encontraAgente(){
+        
+        for(Elemento agente:this.listaElementos){
+            if(agente.isHomem() || agente.isMulher()){
+                
+            }
+        }
+        
+        
     }
     
     
@@ -313,7 +338,7 @@ public class CasaisIdeais {
                 }while(!isLivre(ax, ay));
                 
                 listaElementos.add(new Elemento(true, false, false, false, id, pr, seg, ter,ax,ay));
-
+                matriz[ax][ay] = listaElementos.size()-1;
                 
                 linha = lerArq.readLine(); 
             }
@@ -362,7 +387,7 @@ public class CasaisIdeais {
                 }while(!isLivre(ax, ay));
                 
                 listaElementos.add(new Elemento(false, true, false,false, id, pr, seg, ter,ax,ay));
-
+                matriz[ax][ay] = listaElementos.size()-1;
                 
                 linha = lerArq.readLine(); 
             }
