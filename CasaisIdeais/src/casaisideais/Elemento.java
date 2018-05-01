@@ -249,27 +249,31 @@ public class Elemento {
                         if(getX()-px < 0 || getY()-py < 0 || getX()-px >= CasaisIdeais.n || getY()-py >= CasaisIdeais.n) continue;
                         e = CasaisIdeais.matriz[getX()-px][getY()-py];
                         xx = getX()-px;
-                        yy =getY()-py;
+                        yy = getY()-py;
                                 
                         if(e != -1){ 
                             b = CasaisIdeais.listaElementos.get(e);
-                            if(b.isHomem() || b.isMulher())
-                            if(isSolteiro()){ //Solteiro
-                                System.out.println("CASAMENTO "+id+" e "+b.getId());
-                                if(proposta(id)){
-                                    conjuje = b;
-                                    setSolteiro(false);
-                                    CasaisIdeais.listaElementos.get(e).setConjuje(this);
-                                    CasaisIdeais.listaElementos.get(e).setSolteiro(false);
-                                }
-                            }else{ //Casado
-                                if(b.getId() == preferencia1 && ((b.isMulher && isHomem()) || (b.isHomem() && isMulher()))){
-                                    if(b.proposta(id)){
-                                        //vao ao cartorio
-                                        System.out.println("VAO AO CARTORIO "+id+" e "+b.getId());
-                                    }else{
-                                        //nao se casam, segue o jogo
-                                        System.out.println("Segue o jogo."+id+" e "+b.getId());
+                            if(b.isHomem() || b.isMulher()){
+                                if(isSolteiro()){ //Solteiro
+                                    System.out.println("Encontro "+id+" e "+b.getId() );
+                                    if(proposta(id)){
+                                        System.out.println("CASAMENTO "+id+" e "+b.getId());
+                                        conjuje = b;
+                                        setSolteiro(false);
+                                        CasaisIdeais.listaElementos.get(e).setConjuje(this);
+                                        CasaisIdeais.listaElementos.get(e).setSolteiro(false);
+                                    }
+                                }else{ //Casado
+                                    if(!b.equals(conjuje)){
+                                        if(((b.isMulher && isHomem()) || (b.isHomem() && isMulher()))){
+                                            if(b.proposta(id)){
+                                                //vao ao cartorio
+                                                System.out.println("Separação: VAO AO CARTORIO "+id+" e "+b.getId());
+                                            }else{
+                                                //nao se casam, segue o jogo
+                                                System.out.println("Segue o jogo."+id+" e "+b.getId());
+                                            }
+                                        }
                                     }
                                 }
                             }
