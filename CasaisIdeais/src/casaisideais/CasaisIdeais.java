@@ -17,13 +17,13 @@ import java.util.Random;
  */
 public class CasaisIdeais { 
     
-    private ArrayList<Elemento> listaElementos = new ArrayList<>();
-    private final int n = 10;
+    public static ArrayList<Elemento> listaElementos = new ArrayList<>();
+    public static int n = 10;
     private int qtdHomens;
     private int qtdMulheres;
     private int qtdCartorios;
     private int qtdParedes;
-    int[][] matriz = new int[this.n][this.n];
+    public static int[][] matriz = new int[n][n];
     
 
     /**
@@ -31,17 +31,28 @@ public class CasaisIdeais {
      */
     public static void main(String[] args) throws InterruptedException {
         CasaisIdeais c = new CasaisIdeais();
+        c.iniciaMatriz();
         c.geraParedes();
-        
         c.leArquivo();
         c.geraCartorios();
-        c.desenhaMatriz();
-//        for(int i=0;i<15;i++){
-            c.desenhaAmbiente();
-            c.andaAgente();
-            Thread.sleep(500);
-//        }
         
+        for(int i=0;i<15;i++){
+            
+//            c.desenhaMatriz();
+            for(Elemento e:listaElementos){
+                e.executa();
+            }
+            c.desenhaAmbiente();
+            //c.andaAgente();
+            Thread.sleep(500);
+        }
+        
+    }
+    
+    public void iniciaMatriz(){
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                matriz[i][j] = -1;
     }
     
     public void desenhaMatriz(){
@@ -101,7 +112,7 @@ public class CasaisIdeais {
         return false;
     }
     
-    public boolean isLivre(int x, int y){
+    public static boolean isLivre(int x, int y){
         Elemento aux;
         for(int i=0;i<listaElementos.size();i++){
             aux  = listaElementos.get(i);
@@ -109,7 +120,7 @@ public class CasaisIdeais {
                 return false;
             }
         }
-        if(x < 0 || y < 0 || x >= this.n || y >= this.n)
+        if(x < 0 || y < 0 || x >= n || y >= n)
             return false;
         return true;
     }
@@ -196,7 +207,7 @@ public class CasaisIdeais {
     }
     
     
-    public void andaAgente(){
+    public void andaAgente3(){
         Elemento agente;
         for(int i=0;i<this.listaElementos.size();i++){
             agente = this.listaElementos.get(i);
@@ -244,16 +255,7 @@ public class CasaisIdeais {
     }
     
     
-    public void encontraAgente(){
-        
-        for(Elemento agente:this.listaElementos){
-            if(agente.isHomem() || agente.isMulher()){
-                
-            }
-        }
-        
-        
-    }
+    
     
     
     public void leArquivo() {
