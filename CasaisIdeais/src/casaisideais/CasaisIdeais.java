@@ -271,7 +271,7 @@ public class CasaisIdeais {
             int p = 0;
             String sQtdCasais = "0";
             String sQtdCartorios = "0";
-           
+            
             while(linha.charAt(p) != ' '){
                 sQtdCasais += linha.charAt(p)+"";
                 

@@ -251,7 +251,7 @@ public class Elemento {
                         xx = getX()-px;
                         yy =getY()-py;
                                 
-                        if(e != -1){
+                        if(e != -1){ 
                             b = CasaisIdeais.listaElementos.get(e);
                             if(b.isHomem() || b.isMulher())
                             if(isSolteiro()){ //Solteiro
